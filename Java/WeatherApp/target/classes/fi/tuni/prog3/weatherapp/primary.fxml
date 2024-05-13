@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="498.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fi.tuni.prog3.weatherapp.PrimaryController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <items>
+          <Button fx:id="goToSearchButton" mnemonicParsing="false" onAction="#switchToSecondary" text="Search &amp; add favorites" />
+            <Button fx:id="favoritesButton" mnemonicParsing="false" onAction="#switchToFavorites" text="Favorites" />
+            <Button fx:id="historyButton" mnemonicParsing="false" onAction="#switchToHistory" text="History" />
+            <Button fx:id="changeUnitsButton" mnemonicParsing="false" onAction="#changeAllUnits" text="Change units" />
+        </items>
+      </ToolBar>
+      <HBox alignment="CENTER" spacing="20.0">
+         <children>
+            <Label fx:id="cityNameLabel" alignment="CENTER" contentDisplay="CENTER" text="Kaupunki" textAlignment="CENTER">
+               <font>
+                  <Font name="Liberation Mono" size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+         </padding>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <BorderPane prefHeight="265.0" prefWidth="458.0">
+         <left>
+            <VBox alignment="TOP_RIGHT" prefHeight="77.0" prefWidth="130.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="temperature_current" alignment="CENTER" prefHeight="39.0" prefWidth="130.0" text="Label" textAlignment="RIGHT">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="feelsLike_current" alignment="CENTER" prefHeight="37.0" prefWidth="148.0" text="Label" textAlignment="RIGHT">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+         </left>
+         <right>
+            <VBox prefHeight="77.0" prefWidth="130.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="windDir_current" prefHeight="39.0" prefWidth="131.0" text="wind direction">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="windVelo_current" prefHeight="37.0" prefWidth="131.0" text="wind speed">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+         </right>
+         <top>
+            <Label text="Current weather" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="14.0" />
+               </font>
+            </Label>
+         </top>
+         <padding>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <center>
+            <VBox alignment="CENTER" prefHeight="75.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="desc_current" minHeight="50.0" minWidth="21.0" prefHeight="51.0" prefWidth="50.0" text="icon" textAlignment="CENTER">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="desc1_current" text="description of the weather" />
+                  <Label fx:id="rainAmount_current" prefHeight="37.0" prefWidth="90.0" text="rainAmount" textAlignment="CENTER">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+         </center>
+         <bottom>
+            <VBox alignment="CENTER" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Forecast">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="TOP_CENTER" prefHeight="97.0" prefWidth="417.0">
+                     <children>
+                        <VBox fx:id="forecast_01" alignment="TOP_CENTER" layoutX="19.0" layoutY="10.0" onMouseClicked="#changeForecastDay" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: WHITE;">
+                           <children>
+                              <HBox alignment="TOP_RIGHT" prefHeight="26.0" prefWidth="83.0">
+                                 <children>
+                                    <Label fx:id="day_01" alignment="TOP_RIGHT" text="DAY:">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_RIGHT" prefHeight="21.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="rainAmount_forecast_01" text="Rain:">
+                                       <padding>
+                                          <Insets bottom="2.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_RIGHT" prefHeight="21.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="temperatureMax_forecast_01" text="Max:">
+                                       <padding>
+                                          <Insets bottom="2.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_RIGHT" layoutX="10.0" layoutY="57.0" prefHeight="21.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="temperatureMin_forecast_01" text="Min:">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="forecast_0" alignment="TOP_CENTER" onMouseClicked="#changeForecastDay" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: LIGHTBLUE;">
+                           <children>
+                              <Label fx:id="day_0" text="TODAY">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <HBox alignment="TOP_CENTER" prefHeight="21.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="rainAmount_forecast_0" text="Label">
+                                       <padding>
+                                          <Insets bottom="2.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_CENTER" prefHeight="21.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="temperatureMax_forecast_0" text="Max">
+                                       <padding>
+                                          <Insets bottom="2.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="57.0" prefHeight="21.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="temperatureMin_forecast_0" text="Min" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="forecast_1" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#changeForecastDay" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: WHITE;">
+                           <children>
+                              <Label fx:id="day_1" text="TOMORROW">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="rainAmount_forecast_1" text="Label">
+                                 <padding>
+                                    <Insets bottom="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="temperatureMax_forecast_1" layoutX="46.0" layoutY="27.0" text="Ylin:">
+                                 <padding>
+                                    <Insets bottom="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="temperatureMin_forecast_1" layoutX="46.0" layoutY="45.0" text="Alin:" />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="forecast_2" alignment="TOP_CENTER" layoutX="110.0" layoutY="10.0" onMouseClicked="#changeForecastDay" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: WHITE;">
+                           <children>
+                              <Label fx:id="day_2" text="DATE">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="rainAmount_forecast_2" text="Label">
+                                 <padding>
+                                    <Insets bottom="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="temperatureMax_forecast_2" layoutX="46.0" layoutY="27.0" text="Ylin:">
+                                 <padding>
+                                    <Insets bottom="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="temperatureMin_forecast_2" layoutX="46.0" layoutY="45.0" text="Alin:" />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="forecast_3" alignment="TOP_CENTER" layoutX="210.0" layoutY="10.0" onMouseClicked="#changeForecastDay" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: WHITE;">
+                           <children>
+                              <Label fx:id="day_3" text="DATE">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="rainAmount_forecast_3" text="Label">
+                                 <padding>
+                                    <Insets bottom="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="temperatureMax_forecast_3" layoutX="46.0" layoutY="27.0" text="Ylin:">
+                                 <padding>
+                                    <Insets bottom="2.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="temperatureMin_forecast_3" layoutX="46.0" layoutY="45.0" text="Alin:" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </bottom>
+      </BorderPane>
+      <ScrollPane prefHeight="220.0" prefWidth="458.0" style="-fx-background-color: LIGHTBLUE;">
+         <content>
+            <GridPane fx:id="gridPane" prefHeight="203.0" prefWidth="909.0" style="-fx-background-color: LIGHTBLUE;">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Hour">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Symbol" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Temperature" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Wind direction" GridPane.rowIndex="3">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Wind speed" GridPane.rowIndex="4">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Rain amount" GridPane.rowIndex="5">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </GridPane>
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>

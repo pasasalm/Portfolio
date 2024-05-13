@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="290.0" prefWidth="307.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fi.tuni.prog3.weatherapp.SecondaryController">
+    <children>
+      <Label text="Search a city:" textAlignment="RIGHT">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <HBox alignment="TOP_CENTER" prefHeight="47.0" prefWidth="267.0" spacing="10.0">
+         <children>
+            <TextField fx:id="textFieldCity" alignment="TOP_LEFT" promptText="name of the city" />
+            <Button fx:id="searchButton" alignment="CENTER" mnemonicParsing="false" onAction="#searchCity" text="Search">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </children>
+      </HBox>
+      <Label text="Search result:">
+         <padding>
+            <Insets bottom="20.0" />
+         </padding>
+      </Label>
+      <Label fx:id="labelSearchResult">
+         <padding>
+            <Insets bottom="20.0" />
+         </padding>
+      </Label>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+              <Button fx:id="secondaryButton" onAction="#switchToPrimary" text="See the weather" />
+            <RadioButton fx:id="radioButtonFavorite" mnemonicParsing="false" onAction="#addFavorite" text="Add to favorite" />
+            <!-- Lisätään uusi Label-elementti näyttämään lisätty teksti -->
+            <Label fx:id="addFavoriteLabel" />
+         </children>
+      </HBox>
+      <Label fx:id="errorMessage" prefHeight="17.0" prefWidth="300.0" />
+      <Button fx:id="goBackButton" mnemonicParsing="false" onAction="#goBack" text="Go Back" />
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
