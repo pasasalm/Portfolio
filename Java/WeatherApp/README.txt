@@ -22,6 +22,7 @@ Testitiedostot ja ohjelman testaaminen.
 
 Käyttöohje:
 
+Mikäli haluat ajaa koodia omalla koneellasi, tulee sinun asettaa iAPI luokkaan oma OpenWeatherMap ApiKey, ilman tätä koodi ei toimi.
 Avatessa ohjelman ensimmäistä kertaa ohjelma avautuu tilaan, jossa paikkakuntaa ja sen säätietoja ei
 ole. Voit hakea paikkakunnan säätietoja hakuvälilehdeltä. Haku tapahtuu kirjoittamalla hakukenttään
 paikkakunnan nimen ja painamalla hakunappia. Jos ohjelma ilmoittaa paikkakunnan löytyneen, voit
