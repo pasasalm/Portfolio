@@ -10,7 +10,6 @@ fi\tuni\prog3\weatherapp\iAPI.class
 fi\tuni\prog3\weatherapp\iAPI$OpenWeatherMapAPI$1.class
 fi\tuni\prog3\weatherapp\WeatherDataMap.class
 fi\tuni\prog3\weatherapp\iAPI$OpenWeatherMapAPI$2.class
-module-info.class
 fi\tuni\prog3\weatherapp\SecondaryController.class
 fi\tuni\prog3\weatherapp\WeatherData.class
 fi\tuni\prog3\weatherapp\HistoryController$1.class
