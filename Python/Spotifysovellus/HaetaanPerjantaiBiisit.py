@@ -1,8 +1,10 @@
+from telegram.ext import Application
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext import ApplicationBuilder
+from telegram.ext import CommandHandler, ContextTypes
 from telegram.ext import ConversationHandler
 from telegram.ext import MessageHandler
-from telegram.ext import Filters
+from telegram.ext import filters
 import sys
 import os
 import spotipy
@@ -11,6 +13,8 @@ from datetime import datetime, timedelta
 from spotify_api_keys import SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI
 from telegram_bot_token import Telegram_bot_token
 import logging
+
+
 
 
 # Luodaan loggeri
@@ -38,13 +42,13 @@ def get_current_week():
         return previous_friday.isocalendar()[1]
 
 
-def start(update, context):
-    update.message.reply_text('Hei! Olen PerjantaiBiisiBottisi.')
-    update.message.reply_text('Syöttämällä koodin /menu, kerron lisää mitä voit tehdä')
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text('Hei! Olen PerjantaiBiisiBottisi.')
+    await update.message.reply_text('Syöttämällä koodin /menu, kerron lisää mitä voit tehdä')
 
 
-def handle_menu(update, context):
-    update.message.reply_text(
+async def handle_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
         "Valitse toiminto:\n"
         "1. /ohjeet\n"
         "2. /hae_soittolista\n"
@@ -59,29 +63,29 @@ def handle_menu(update, context):
     return 1
 
 
-def introductions(update, context):
 
-    update.message.reply_text("Hei, kiva että päädyit käyttämään ohjelmaani")
-    update.message.reply_text("Olen vielä hieman keskeneräinen, joten palautteen voit lähettää telegrammissa käyttäjälle: PatrikSalmensaari")
+async def introductions(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    update.message.reply_text("Kuten huomasit /menu antaa kaikki komennot")
-    update.message.reply_text("Tähän alle on avattu muita komentoja")
+    await update.message.reply_text("Hei, kiva että päädyit käyttämään ohjelmaani")
+    await update.message.reply_text("Olen vielä hieman keskeneräinen, joten palautteen voit lähettää telegrammissa käyttäjälle: PatrikSalmensaari")
 
-    update.message.reply_text("/hae_soittolista päivittää uuden viikon soittolistan")
-    update.message.reply_text("/etsi_kappale toiminnolla voi etsiä kappaleen tai artistin nimellä olevia kappaleita. Komento on: /etsi_kappale, kappaleen/artistin nimi")
-    update.message.reply_text("/kommentoi_kappaletta toiminnolla voit lisätä oman kommentin kyseiseen kappaleeseen Kometo on: /kommentoi_kappaletta, kappaleen nimi, omat kommentit")
-    update.message.reply_text("/hae_kommentit toiminnolla voit hakea kaikki kommentit kyseisestä kappaleesta. Komento on: /hae_kommentit, kappaleen nimi")
-    update.message.reply_text("/kaikki_biisit toiminto tulostaa kaikki uuden viikon biisit")
+    await update.message.reply_text("Kuten huomasit /menu antaa kaikki komennot")
+    await update.message.reply_text("Tähän alle on avattu muita komentoja")
 
-    update.message.reply_text("/toplistalle toiminto lisää kappaleen top listalle. Komento on: /toplistalle, kappaleen nimi - Artisti")
-    update.message.reply_text("/tulostatoplista toiminto tulostaa toplistan")
+    await update.message.reply_text("/hae_soittolista päivittää uuden viikon soittolistan")
+    await update.message.reply_text("/etsi_kappale toiminnolla voi etsiä kappaleen tai artistin nimellä olevia kappaleita. Komento on: /etsi_kappale, kappaleen/artistin nimi")
+    await update.message.reply_text("/kommentoi_kappaletta toiminnolla voit lisätä oman kommentin kyseiseen kappaleeseen Kometo on: /kommentoi_kappaletta, kappaleen nimi, omat kommentit")
+    await update.message.reply_text("/hae_kommentit toiminnolla voit hakea kaikki kommentit kyseisestä kappaleesta. Komento on: /hae_kommentit, kappaleen nimi")
+    await update.message.reply_text("/kaikki_biisit toiminto tulostaa kaikki uuden viikon biisit")
 
-    update.message.reply_text("/lopeta toiminto lopettaa ohjelma")
+    await update.message.reply_text("/toplistalle toiminto lisää kappaleen top listalle. Komento on: /toplistalle, kappaleen nimi - Artisti")
+    await update.message.reply_text("/tulostatoplista toiminto tulostaa toplistan")
+
+    await update.message.reply_text("/lopeta toiminto lopettaa ohjelma")
 
     return ConversationHandler.END
 
-
-def create_spotify_playlist_file(update, context):
+async def create_spotify_playlist_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         # Spotify API-avainten määrittely ja autentikointi
         client_credentials_manager = SpotifyClientCredentials(
@@ -99,7 +103,7 @@ def create_spotify_playlist_file(update, context):
 
         if os.path.exists(tiedoston_nimi):
             print(f"Tiedosto {tiedoston_nimi} on jo olemassa.")
-            update.message.reply_text(f"Tiedosto {tiedoston_nimi} on jo olemassa.")
+            await update.message.reply_text(f"Tiedosto {tiedoston_nimi} on jo olemassa.")
         else:
             with open(tiedoston_nimi, "w", encoding="utf-8") as file:
                 file.write(f"BiisiPerjantai Viikko {viikon_numero}\n\n")
@@ -120,7 +124,7 @@ def create_spotify_playlist_file(update, context):
                         file.write("Tietoja ei saatavilla\n")
 
             print(f"Tiedosto {tiedoston_nimi} on luotu ja tiedot tallennettu.")
-            update.message.reply_text(f"Tiedosto {tiedoston_nimi} on luotu ja tiedot tallennettu.")
+            await update.message.reply_text(f"Tiedosto {tiedoston_nimi} on luotu ja tiedot tallennettu.")
 
     except Exception as e:
         # Täällä käsitellään virheitä
@@ -128,7 +132,7 @@ def create_spotify_playlist_file(update, context):
 
 
 
-def search_track(update, context):
+async def search_track(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Muuta niin, että myös artistin nimellä voi etsiä kappaletta
     # Jos tallentaa biisit esim artisti - kappale dictiin ja toisinpäin
@@ -163,21 +167,21 @@ def search_track(update, context):
                             found_track = f"{track_name} - {artist_name}\nLinkki: {track_url}"
                             break  # Keskeytä silmukka, kun ensimmäinen osuma löytyy
     except FileNotFoundError:
-        update.message.reply_text(
+        await update.message.reply_text(
             "Tiedostoa ei löydy. Voit luoda sen komennolla /Hae_soittolista.")
         return ConversationHandler.END
 
     if found_track:
-        update.message.reply_text("Löydetty kappale:")
-        update.message.reply_text(found_track)
+        await update.message.reply_text("Löydetty kappale:")
+        await update.message.reply_text(found_track)
     else:
-        update.message.reply_text("Kappaletta ei löytynyt.")
-        update.message.reply_text("Anna komento muodossa /etsi_kappale, kappaleen nimi")
+        await update.message.reply_text("Kappaletta ei löytynyt.")
+        await update.message.reply_text("Anna komento muodossa /etsi_kappale, kappaleen nimi")
 
     return ConversationHandler.END
 
 
-def process_comment(update, context):
+async def process_comment(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Lisäys jossa kappaleen artistin nimi lisätään väistämättä tiedostoon.
     # Hakee artistin esim dictistä
@@ -199,14 +203,14 @@ def process_comment(update, context):
             file.write(response_message + '\n')
             file.write('\n')  # Lisää yksi tyhjä rivi
 
-        update.message.reply_text("Kommentti tallennettu onnistuneesti.")
+        await update.message.reply_text("Kommentti tallennettu onnistuneesti.")
     else:
-        update.message.reply_text("Anna komento muodossa /kommentoi_kappaletta, kappaleen nimi, kommentit")
+        await update.message.reply_text("Anna komento muodossa /kommentoi_kappaletta, kappaleen nimi, kommentit")
 
     return ConversationHandler.END
 
 
-def search_comments(update, context):
+async def search_comments(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Kun kommentointia muutettu muuta tuloste niin että myös artisti tulostetaan.
 
@@ -246,26 +250,26 @@ def search_comments(update, context):
                 #    break
 
     except FileNotFoundError:
-        update.message.reply_text("Kommenttitiedostoa ei löydy. Ei tallennettuja kommentteja.")
+        await update.message.reply_text("Kommenttitiedostoa ei löydy. Ei tallennettuja kommentteja.")
         return ConversationHandler.END
     except UnicodeDecodeError:
-        update.message.reply_text("Virhe luettaessa tiedostoa. Tarkista tiedoston koodaus.")
+        await update.message.reply_text("Virhe luettaessa tiedostoa. Tarkista tiedoston koodaus.")
         return ConversationHandler.END
 
     if found_comments:
-        update.message.reply_text(f"Kappaleen '{track_name}' kommentit:")
+        await update.message.reply_text(f"Kappaleen '{track_name}' kommentit:")
         for comment in found_comments:
             if comment.strip():
-                update.message.reply_text(comment)
+                await update.message.reply_text(comment)
 
     else:
-        update.message.reply_text("Kappaleelle ei löytynyt kommentteja.")
-        update.message.reply_text("Anna komento muodossa /hae_kommentit, kappaleen nimi")
+        await update.message.reply_text("Kappaleelle ei löytynyt kommentteja.")
+        await update.message.reply_text("Anna komento muodossa /hae_kommentit, kappaleen nimi")
 
     return ConversationHandler.END
 
 
-def list_all_tracks(update, context):
+async def list_all_tracks(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Tässä voit toteuttaa koodin, joka hakee kaikki kappaleet tekstitiedostosta
     tiedoston_nimi = f"BiisiPerjantai Viikko {viikon_numero}.txt"
 
@@ -287,18 +291,18 @@ def list_all_tracks(update, context):
                         track_info = line.strip().split(" - ", 1)
                         found_tracks.append(f"{track_info[0]} - {track_info[1]}")
     except FileNotFoundError:
-        update.message.reply_text("Tiedostoa ei löydy. Voit luoda sen komennolla /Hae_soittolista.")
+        await update.message.reply_text("Tiedostoa ei löydy. Voit luoda sen komennolla /Hae_soittolista.")
         return
 
     if found_tracks:
-        update.message.reply_text("Kaikki kappaleet:")
+        await update.message.reply_text("Kaikki kappaleet:")
         for track_info in found_tracks:
-            update.message.reply_text(track_info)
+            await update.message.reply_text(track_info)
     else:
-        update.message.reply_text("Kappaleita ei löytynyt.")
+        await update.message.reply_text("Kappaleita ei löytynyt.")
 
 
-def add_to_top_list(update, context):
+async def add_to_top_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Lisä tarkistus onko kyseinen kappale tämän viikon uusi kappale
     # Lisää tiedostoon myös artistin nimi ja tulosta myös artistin nimi
@@ -310,7 +314,7 @@ def add_to_top_list(update, context):
 
     # Tarkista, että käyttäjä on antanut kappaleen nimen
     if not user_input:
-        update.message.reply_text(
+        await update.message.reply_text(
             "Anna kappaleen nimi ja artisti komennon perään, esim. /toplistalle, kappaleen nimi - artisti")
         return
 
@@ -326,10 +330,10 @@ def add_to_top_list(update, context):
     with open(top_list_filename, "a", encoding="utf-8") as file:
         file.write(f"{user_input}\n")
 
-    update.message.reply_text(f"Kappale '{user_input}' lisätty top listalle.")
+    await update.message.reply_text(f"Kappale '{user_input}' lisätty top listalle.")
 
 
-def print_top_list(update, context):
+async def print_top_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Tarkista, onko top listan tiedosto olemassa
     top_list_filename = f"BiisiPerjantai Viikko {viikon_numero} toplista.txt"
@@ -339,19 +343,19 @@ def print_top_list(update, context):
             top_list = file.readlines()
 
         if top_list:
-            update.message.reply_text("Top-lista:")
+            await update.message.reply_text("Top-lista:")
             for entry in top_list:
-                update.message.reply_text(entry.strip())
+                await update.message.reply_text(entry.strip())
         else:
-            update.message.reply_text("Top-lista on tyhjä.")
+            await update.message.reply_text("Top-lista on tyhjä.")
 
     except FileNotFoundError:
-        update.message.reply_text(
+        await update.message.reply_text(
             "Top-listaa ei löydy. Lisää kappaleita komennolla /toplistalle.")
 
 
-def end(update, context):
-    update.message.reply_text("Ohjelma suljetaan.")
+async def end(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Ohjelma suljetaan.")
     print("Käyttäjä sulki oman tg bottinsa, ohjelman tulee jäädä ns käyntiin")
     return ConversationHandler.END
 
@@ -363,63 +367,46 @@ def end(update, context):
 viikon_numero = get_current_week()
 # Globaali muuttuja mutta voisiko sijoittaa johonkin fiksumpaan paikaan??
 
+
 def main():
-
-
-    updater = Updater(token=Telegram_bot_token, use_context=True)
+    # Create Application instance
+    application = ApplicationBuilder().token(Telegram_bot_token).build()
     print("Ohjelma alkaa")
 
-    dp = updater.dispatcher
-
-    # Lisää ConversationHandler käsittelemään valikon eri vaiheita
+    # Add ConversationHandler to handle different stages of the menu
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("menu", handle_menu)],
         states={
-            1: [MessageHandler(Filters.text & ~Filters.command,
-                               introductions)],
-            2: [MessageHandler(Filters.text & ~Filters.command,
-                               create_spotify_playlist_file)],
-            3: [MessageHandler(Filters.text & ~Filters.command,
-                               search_track)],
-            4: [MessageHandler(Filters.text & ~Filters.command,
-                               process_comment)],
-            5: [MessageHandler(Filters.text & ~Filters.command,
-                               search_comments)],
-            6: [MessageHandler(Filters.text & ~Filters.command,
-                               list_all_tracks)],
-            7: [MessageHandler(Filters.text & ~Filters.command,
-                               add_to_top_list)],
-            8: [MessageHandler(Filters.text & ~Filters.command,
-                               print_top_list)],
-            9: [MessageHandler(Filters.text & ~Filters.command,
-                               end)],
-
+            1: [MessageHandler(filters.TEXT & ~filters.COMMAND, introductions)],
+            2: [MessageHandler(filters.TEXT & ~filters.COMMAND, create_spotify_playlist_file)],
+            3: [MessageHandler(filters.TEXT & ~filters.COMMAND, search_track)],
+            4: [MessageHandler(filters.TEXT & ~filters.COMMAND, process_comment)],
+            5: [MessageHandler(filters.TEXT & ~filters.COMMAND, search_comments)],
+            6: [MessageHandler(filters.TEXT & ~filters.COMMAND, list_all_tracks)],
+            7: [MessageHandler(filters.TEXT & ~filters.COMMAND, add_to_top_list)],
+            8: [MessageHandler(filters.TEXT & ~filters.COMMAND, print_top_list)],
+            9: [MessageHandler(filters.TEXT & ~filters.COMMAND, end)],
         },
         fallbacks=[],
     )
-    dp.add_handler(conv_handler)
 
-    # Rekisteröi muut komennot
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("ohjeet", introductions))
-    dp.add_handler(CommandHandler("hae_soittolista", create_spotify_playlist_file))
-    dp.add_handler(CommandHandler("etsi_kappale", search_track))
-    dp.add_handler(CommandHandler("kommentoi_kappaletta", process_comment))
-    dp.add_handler(CommandHandler("hae_kommentit", search_comments))
-    dp.add_handler(CommandHandler("kaikki_biisit", list_all_tracks))
-    dp.add_handler(CommandHandler("toplistalle", add_to_top_list))
-    dp.add_handler(CommandHandler("tulostatoplista", print_top_list))
-    dp.add_handler(CommandHandler("lopeta", end))
+    # Register the conversation handler and other commands
+    application.add_handler(conv_handler)
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("ohjeet", introductions))
+    application.add_handler(CommandHandler("hae_soittolista", create_spotify_playlist_file))
+    application.add_handler(CommandHandler("etsi_kappale", search_track))
+    application.add_handler(CommandHandler("kommentoi_kappaletta", process_comment))
+    application.add_handler(CommandHandler("hae_kommentit", search_comments))
+    application.add_handler(CommandHandler("kaikki_biisit", list_all_tracks))
+    application.add_handler(CommandHandler("toplistalle", add_to_top_list))
+    application.add_handler(CommandHandler("tulostatoplista", print_top_list))
+    application.add_handler(CommandHandler("lopeta", end))
 
-    # Lisäys jossa kappale voidaan lisätä yhteiselle suosikit listalle
-    # kaikki voivat lisätä sinne kappaleita ja nähdä mitä siellä jo on.
-
-
-    updater.start_polling()
-    updater.idle()
+    # Start polling updates
+    application.run_polling()
 
 if __name__ == '__main__':
     main()
-import telegram
-print(telegram.__version__)
+
 
