@@ -1,3 +1,0 @@
-# First read in compulsory example
-read "integration-compulsory/test-00-compulsory-in.txt"
-get_all_references 54224

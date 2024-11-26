@@ -1,3 +1,0 @@
-# First read in compulsory example
-read "integration-compulsory/test-00-compulsory-in.txt"
-get_closest_common_parent 2528474 6440429
